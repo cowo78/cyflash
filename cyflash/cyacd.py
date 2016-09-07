@@ -66,8 +66,6 @@ class BootloaderData(object):
             raise ValueError("Expected 12 byte header line first, firmware file may be corrupt.")
         self = cls()
         self.silicon_id, self.silicon_rev, self.checksum_type = struct.unpack('>LBB', header)
-        if (self.checksum_type != 0):
-            raise ValueError("Only Basic Summation checksum type (0x00 code) is supported, this file has 0x{0:02X}".format(self.checksum_type))
         for i, line in enumerate(f):
             row = BootloaderRow.read(line.strip(), i + 2)
             if row.array_id not in self.arrays:
